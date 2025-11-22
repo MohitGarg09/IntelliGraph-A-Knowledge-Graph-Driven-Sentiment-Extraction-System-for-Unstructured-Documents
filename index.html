@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analysis System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>Resume Analysis System</h1>
+                </div>
+                <div class="health-status" id="healthStatus">
+                    <div class="status-indicator" id="statusIndicator">
+                        <i class="fas fa-circle"></i>
+                        <span id="statusText">Checking...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-tab="upload">
+                    <i class="fas fa-upload"></i>
+                    Upload Resumes
+                </button>
+                <button class="nav-tab" data-tab="candidates">
+                    <i class="fas fa-users"></i>
+                    Candidates
+                </button>
+                <button class="nav-tab" data-tab="query">
+                    <i class="fas fa-search"></i>
+                    Query System
+                </button>
+                <button class="nav-tab" data-tab="ats">
+                    <i class="fas fa-chart-line"></i>
+                    ATS Analysis
+                </button>
+                <button class="nav-tab" data-tab="status">
+                    <i class="fas fa-info-circle"></i>
+                    Status
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- Upload Tab -->
+            <div class="tab-content active" id="upload">
+                <div class="section-header">
+                    <h2><i class="fas fa-upload"></i> Upload Resumes</h2>
+                    <p>Upload PDF resumes to analyze and add to the knowledge graph</p>
+                </div>
+                
+                <div class="upload-section">
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-content">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h3>Drag & Drop PDF Files</h3>
+                            <p>or <span class="upload-link">click to browse</span></p>
+                            <input type="file" id="fileInput" multiple accept=".pdf" hidden>
+                        </div>
+                    </div>
+                    
+                    <div class="upload-progress" id="uploadProgress" style="display: none;">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <div class="progress-text" id="progressText">Uploading...</div>
+                    </div>
+                    
+                    <div class="uploaded-files" id="uploadedFiles"></div>
+                </div>
+            </div>
+
+            <!-- Candidates Tab -->
+            <div class="tab-content" id="candidates">
+                <div class="section-header">
+                    <h2><i class="fas fa-users"></i> Candidates</h2>
+                    <p>View all candidates in the system</p>
+                </div>
+                
+                <div class="candidates-section">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="candidateSearch" placeholder="Search candidates by name, skills, or title...">
+                    </div>
+                    
+                    <div class="candidates-grid" id="candidatesGrid">
+                        <div class="loading-spinner">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading candidates...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Query Tab -->
+            <div class="tab-content" id="query">
+                <div class="section-header">
+                    <h2><i class="fas fa-search"></i> Query Knowledge Graph</h2>
+                    <p>Ask questions about the resume data using natural language</p>
+                </div>
+                
+                <div class="query-section">
+                    <div class="query-examples">
+                        <h3>Example Queries:</h3>
+                        <div class="example-chips">
+                            <span class="chip" onclick="setQuery('Who has Python experience?')">Who has Python experience?</span>
+                            <span class="chip" onclick="setQuery('Find candidates with React skills')">Find candidates with React skills</span>
+                            <span class="chip" onclick="setQuery('Who studied at VIT?')">Who studied at VIT?</span>
+                            <span class="chip" onclick="setQuery('Show me all machine learning projects')">Show me all ML projects</span>
+                        </div>
+                    </div>
+                    
+                    <div class="query-input-section">
+                        <div class="input-group">
+                            <textarea id="queryInput" placeholder="Enter your query about the resume data..." rows="3"></textarea>
+                            <button id="querySubmit" class="btn btn-primary">
+                                <i class="fas fa-search"></i>
+                                Query
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="query-results" id="queryResults"></div>
+                </div>
+            </div>
+
+            <!-- ATS Analysis Tab -->
+            <div class="tab-content" id="ats">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-line"></i> ATS Analysis</h2>
+                    <p>Analyze how well resumes match against job descriptions</p>
+                </div>
+                
+                <div class="ats-section">
+                    <div class="ats-input">
+                        <h3>Job Description</h3>
+                        <textarea id="jobDescription" placeholder="Paste the job description here..." rows="8"></textarea>
+                        <div class="ats-buttons">
+                            <button id="analyzeAll" class="btn btn-primary">
+                                <i class="fas fa-chart-bar"></i>
+                                Analyze All Resumes
+                            </button>
+                            <button id="analyzeSingle" class="btn btn-secondary">
+                                <i class="fas fa-file-alt"></i>
+                                Analyze Single Resume
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="single-resume-input" id="singleResumeInput" style="display: none;">
+                        <h3>Resume Text</h3>
+                        <textarea id="singleResumeText" placeholder="Paste resume text here..." rows="6"></textarea>
+                        <button id="submitSingleATS" class="btn btn-primary">
+                            <i class="fas fa-analyze"></i>
+                            Analyze
+                        </button>
+                    </div>
+                    
+                    <div class="ats-results" id="atsResults"></div>
+                </div>
+            </div>
+
+            <!-- Status Tab -->
+            <div class="tab-content" id="status">
+                <div class="section-header">
+                    <h2><i class="fas fa-info-circle"></i> System Status</h2>
+                    <p>Monitor system health and processing status</p>
+                </div>
+                
+                <div class="status-section">
+                    <div class="status-cards">
+                        <div class="status-card">
+                            <div class="status-card-header">
+                                <i class="fas fa-database"></i>
+                                <h3>Database Connection</h3>
+                            </div>
+                            <div class="status-value" id="dbStatus">
+                                <span class="status-loading">Checking...</span>
+                            </div>
+                        </div>
+                        
+                        <div class="status-card">
+                            <div class="status-card-header">
+                                <i class="fas fa-robot"></i>
+                                <h3>RAG System</h3>
+                            </div>
+                            <div class="status-value" id="ragStatus">
+                                <span class="status-loading">Checking...</span>
+                            </div>
+                        </div>
+                        
+                        <div class="status-card">
+                            <div class="status-card-header">
+                                <i class="fas fa-key"></i>
+                                <h3>API Configuration</h3>
+                            </div>
+                            <div class="status-value" id="apiStatus">
+                                <span class="status-loading">Checking...</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="processing-status">
+                        <h3>Processing Status</h3>
+                        <div class="processing-summary" id="processingSummary">
+                            <div class="loading-spinner">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p>Loading processing status...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="processing-details" id="processingDetails"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Candidate Detail Modal -->
+    <div class="modal" id="candidateModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="candidateName">Candidate Details</h2>
+                <button class="modal-close" onclick="closeCandidateModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="candidateDetails">
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading candidate details...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

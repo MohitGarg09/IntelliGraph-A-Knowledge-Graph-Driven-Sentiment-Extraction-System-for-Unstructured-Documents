@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.dll
+*.dylib
+
+# Environments
+.env
+.venv/
+venv/
+env/
+acc-env/
+
+# Packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# IDE / Editors
+.vscode/
+.idea/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Coverage / Testing
+.pytest_cache/
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Logs
+*.log
+
+# Databases / Vectors / Caches
+*.sqlite3
+chroma_db/
+chroma_resume/
+rag_chroma/
+
+# Data containing PII or large binaries
+resumes/
+
+# Node / Web (just in case)
+node_modules/
+
+# Misc
+query
