@@ -1,0 +1,9 @@
+# Auto-detect text files and perform LF normalization
+* text=auto
+
+# Ensure Python and YAML use LF
+*.py text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf
+*.md text eol=lf
